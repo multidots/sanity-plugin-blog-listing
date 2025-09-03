@@ -1,0 +1,87 @@
+{
+  "name": "@multidots/sanity-plugin-blog-listing",
+  "version": "1.0.1",
+  "description": "A Sanity plugin that enables creating and displaying blog posts in customizable list or grid layouts with filtering, sorting and pagination options.",
+  "keywords": [
+    "sanity",
+    "sanity-plugin",
+    "blog",
+    "list",
+    "grid",
+    "filter",
+    "sort",
+    "pagination"
+  ],
+  "license": "MIT",
+  "author": "Multidots <sanity@multidots.com>",
+  "sideEffects": false,
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "import": "./build/index.mjs",
+      "default": "./build/index.js"
+    },
+    "./client": {
+      "source": "./src/client.ts",
+      "import": "./build/client.mjs",
+      "default": "./build/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "build",
+    "sanity.json",
+    "src",
+    "v2-incompatible.js"
+  ],
+  "scripts": {
+    "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
+    "format": "prettier --write --cache --ignore-unknown .",
+    "link-watch": "plugin-kit link-watch",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build",
+    "watch": "pkg-utils watch --strict node watch-and-push.js"
+  },
+  "dependencies": {
+    "@sanity/incompatible-plugin": "^1.0.5"
+  },
+  "devDependencies": {
+    "@sanity/pkg-utils": "^7.9.5",
+    "@sanity/plugin-kit": "^4.0.19",
+    "@sanity/browserslist-config": "^1.0.1",
+    "@sanity/image-url": "^1.0.2",
+    "@sanity/client": "^6.22.2",
+    "@types/react": "^18.3.12",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-config-sanity": "^7.1.4",
+    "eslint-plugin-prettier": "^5.5.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-packagejson": "^2.5.18",
+    "sanity": "^3.99.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": "^18",
+    "sanity": "^3",
+    "@sanity/client": "^6",
+    "@sanity/image-url": "^1"
+  },
+  "sanityExchangeUrl": "https://www.sanity.io/plugins/sanity-plugin-blog-listing",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "sanityPlugin": {
+    "verifyPackage": {
+      "eslintImports": false
+    }
+  },
+  "browserslist": "extends @sanity/browserslist-config"
+}
