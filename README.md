@@ -331,6 +331,19 @@ export default async function MdPostPage({ params }: Props) {
 }
 
 ```
+## Plugin Settings and frontend screenshots
+
+Backend Settings: https://share.cleanshot.com/fNLW59VtVKzTf3Fys960
+
+Additional Backend Settings: https://share.cleanshot.com/9CXj7sk0nx8V1BsVBD5D
+
+Grid Layout with Load More Button: https://share.cleanshot.com/gVgdhJXhdvSGMNtyr2t4
+
+Grid Layout with Pagination: https://share.cleanshot.com/RMh0BmF1R6YHM0GMPlns
+
+List Layout with Load More Button: https://share.cleanshot.com/P8j9N6xlSKXLH9XK6PhF
+
+List Layout with Pagination: https://share.cleanshot.com/K1s98B9klCFJrhMPRQLl
 
 ## Styling
 
