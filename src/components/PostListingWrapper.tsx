@@ -195,34 +195,36 @@ export function PostListingWrapper({ config }: PostListingProps) {
     <>
       <div className={`md-post-listing ${effectiveLayout}`}>
         {posts.map((post) => (
-          <div key={post._id} className={`md-post-card ${effectiveLayout}`}>
-            {effectiveShowThumbnail && post.featuredImage && (
-              <img
-                alt={post.featuredImage.alt || post.title}
-                src={urlFor(post.featuredImage).width(300).height(200).url()}
-              />
-            )}
-            <div className="md-post-content">
-              <h3 className="md-post-title">{post.title}</h3>
-
-              {(displayAuthorName || displayDate) && (
-                <div className="md-post-meta">
-                  {displayAuthorName && post.author?.name && <span>By {post.author.name}</span>}
-                  {displayDate && post.publishedAt && (
-                    <span style={{ marginLeft: 10 }}>
-                      {new Date(post.publishedAt).toLocaleDateString()}
-                    </span>
-                  )}
-                </div>
+          <a key={post._id} href={`/mdPost/${post.slug.current}`} className={`md-post-link ${effectiveLayout}`}>
+            <div className={`md-post-card ${effectiveLayout}`}>
+              {effectiveShowThumbnail && post.featuredImage && (
+                <img
+                  alt={post.featuredImage.alt || post.title}
+                  src={urlFor(post.featuredImage).width(300).height(200).url()}
+                />
               )}
+              <div className="md-post-content">
+                <h3 className="md-post-title">{post.title}</h3>
 
-              {effectiveShowCategory && post.categories?.length && (
-                <p className="md-post-category">{post.categories.map((c) => c.title).join(', ')}</p>
-              )}
+                {(displayAuthorName || displayDate) && (
+                  <div className="md-post-meta">
+                    {displayAuthorName && post.author?.name && <span>By {post.author.name}</span>}
+                    {displayDate && post.publishedAt && (
+                      <span style={{ marginLeft: 10 }}>
+                        {new Date(post.publishedAt).toLocaleDateString()}
+                      </span>
+                    )}
+                  </div>
+                )}
 
-              {effectiveShowContent && post.excerpt && <p className="md-post-excerpt">{post.excerpt}</p>}
+                {effectiveShowCategory && post.categories?.length && (
+                  <p className="md-post-category">{post.categories.map((c) => c.title).join(', ')}</p>
+                )}
+
+                {effectiveShowContent && post.excerpt && <p className="md-post-excerpt">{post.excerpt}</p>}
+              </div>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 
@@ -278,17 +280,29 @@ export function PostListingWrapper({ config }: PostListingProps) {
           margin: 50px auto;
         }
 
+        .md-post-link {
+          text-decoration: none;
+          color: inherit;
+          display: block;
+        }
+
+        .md-post-link:hover {
+          text-decoration: none;
+          color: inherit;
+        }
+
         .md-post-card {
           border: 1px solid #ddd;
           padding: 1rem;
           border-radius: 8px;
           background-color: #fff;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-          transition: box-shadow 0.3s ease;
+          transition: box-shadow 0.3s ease, transform 0.2s ease;
         }
 
-        .md-post-card:hover {
+        .md-post-link:hover .md-post-card {
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          transform: translateY(-2px);
         }
 
         .md-post-card img {
@@ -331,6 +345,10 @@ export function PostListingWrapper({ config }: PostListingProps) {
           flex-direction: column;
         }
 
+        .md-post-link.list {
+          display: block;
+        }
+
         .md-post-card.list {
           display: flex;
           gap: 1rem;
@@ -342,7 +360,7 @@ export function PostListingWrapper({ config }: PostListingProps) {
           flex-shrink: 0;
         }
 
-        .md-post-card.list .post-content {
+        .md-post-card.list .md-post-content {
           flex: 1;
           margin-top: 0;
         }

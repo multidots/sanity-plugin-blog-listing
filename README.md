@@ -157,6 +157,180 @@ Environment variables required:
 - `NEXT_PUBLIC_SANITY_PROJECT_ID`
 - `NEXT_PUBLIC_SANITY_DATASET`
 
+## Creating mdPost Detail Pages
+
+To display individual blog posts, you'll need to create dynamic routes for the mdPost detail pages. The `PostListingWrapper` component automatically links to `/mdPost/[slug]` for each post.
+
+### Folder Structure
+
+Create the following folder structure in your Next.js app:
+
+```
+app/
+└── mdPost/
+    └── [slug]/
+        └── page.tsx
+```
+
+### Sample Query
+
+Create a query to fetch a single post by slug:
+
+```ts
+// queries/mdPost.ts
+import { defineQuery } from 'next-sanity'
+
+export const MDPOST_QUERY = defineQuery(`
+  *[_type == "mdPost" && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    publishedAt,
+    excerpt,
+    featuredImage,
+    body,
+    author->{
+      name,
+      slug,
+      image,
+      bio
+    },
+    categories[]->{
+      _id,
+      title,
+      slug,
+      description
+    }
+  }
+`)
+
+export const MDPOST_SLUGS_QUERY = defineQuery(`
+  *[_type == "mdPost" && defined(slug.current)][]{
+    "slug": slug.current
+  }
+`)
+```
+
+### Sample page.tsx
+
+Create the detail page component:
+
+```tsx
+// app/mdPost/[slug]/page.tsx
+import { notFound } from 'next/navigation'
+import { sanityFetch } from '@/sanity/lib/client'
+import { MDPOST_QUERY, MDPOST_SLUGS_QUERY } from '@/queries/mdPost'
+import imageUrlBuilder from '@sanity/image-url'
+import { PortableText } from '@portabletext/react'
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+
+const builder = imageUrlBuilder({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+})
+
+const urlFor = (source: SanityImageSource) => builder.image(source)
+
+type Props = {
+  params: { slug: string }
+}
+
+export async function generateStaticParams() {
+  const posts = await sanityFetch({
+    query: MDPOST_SLUGS_QUERY,
+  })
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
+}
+
+export default async function MdPostPage({ params }: Props) {
+  const post = await sanityFetch({
+    query: MDPOST_QUERY,
+    params,
+  })
+
+  if (!post) {
+    notFound()
+  }
+
+  return (
+    <article className="max-w-4xl mx-auto px-4 py-8">
+      {/* Featured Image */}
+      {post.featuredImage && (
+        <div className="mb-8">
+          <img
+            src={urlFor(post.featuredImage).width(800).height(400).url()}
+            alt={post.featuredImage.alt || post.title}
+            className="w-full h-64 md:h-96 object-cover rounded-lg"
+          />
+        </div>
+      )}
+
+      {/* Title */}
+      <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
+
+      {/* Meta information */}
+      <div className="flex flex-wrap items-center gap-4 mb-8 text-gray-600">
+        {post.author && (
+          <div className="flex items-center gap-2">
+            {post.author.image && (
+              <img
+                src={urlFor(post.author.image).width(40).height(40).url()}
+                alt={post.author.name}
+                className="w-8 h-8 rounded-full"
+              />
+            )}
+            <span>By {post.author.name}</span>
+          </div>
+        )}
+        
+        {post.publishedAt && (
+          <time dateTime={post.publishedAt}>
+            {new Date(post.publishedAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        )}
+      </div>
+
+      {/* Categories */}
+      {post.categories && post.categories.length > 0 && (
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2">
+            {post.categories.map((category) => (
+              <span
+                key={category._id}
+                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+              >
+                {category.title}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Excerpt */}
+      {post.excerpt && (
+        <div className="mb-8 text-xl text-gray-600 leading-relaxed">
+          {post.excerpt}
+        </div>
+      )}
+
+      {/* Body Content */}
+      {post.body && (
+        <div className="prose prose-lg max-w-none">
+          <PortableText value={post.body} />
+        </div>
+      )}
+    </article>
+  )
+}
+
+
 ## Styling
 
 You can style the plugin using the following CSS classes:
