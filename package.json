@@ -1,6 +1,6 @@
 {
   "name": "@multidots/sanity-plugin-blog-listing",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Sanity plugin that enables creating and displaying blog posts in customizable list or grid layouts with filtering, sorting and pagination options.",
   "keywords": [
     "sanity",
@@ -49,11 +49,11 @@
     "@sanity/incompatible-plugin": "^1.0.5"
   },
   "devDependencies": {
+    "@sanity/browserslist-config": "^1.0.1",
+    "@sanity/client": "^6.22.2",
+    "@sanity/image-url": "^1.0.2",
     "@sanity/pkg-utils": "^7.9.5",
     "@sanity/plugin-kit": "^4.0.19",
-    "@sanity/browserslist-config": "^1.0.1",
-    "@sanity/image-url": "^1.0.2",
-    "@sanity/client": "^6.22.2",
     "@types/react": "^18.3.12",
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
@@ -69,10 +69,10 @@
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "react": "^18",
-    "sanity": "^3",
     "@sanity/client": "^6",
-    "@sanity/image-url": "^1"
+    "@sanity/image-url": "^1",
+    "react": "^18 || ^19",
+    "sanity": "^3"
   },
   "sanityExchangeUrl": "https://www.sanity.io/plugins/sanity-plugin-blog-listing",
   "engines": {
