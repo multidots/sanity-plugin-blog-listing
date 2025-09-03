@@ -330,6 +330,7 @@ export default async function MdPostPage({ params }: Props) {
   )
 }
 
+```
 
 ## Styling
 
