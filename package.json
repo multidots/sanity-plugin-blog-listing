@@ -1,6 +1,6 @@
 {
   "name": "@multidots/sanity-plugin-blog-listing",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A Sanity plugin that enables creating and displaying blog posts in customizable list or grid layouts with filtering, sorting and pagination options.",
   "keywords": [
     "sanity",
