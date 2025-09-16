@@ -358,10 +358,6 @@ You can style the plugin using the following CSS classes:
 - `load-more-btn`
 - `pagination-btn`
 
-## Demo Video
-
-https://share.cleanshot.com/gXQ2Sl33gKH04crrcHg4
-
 ## Screenshots
 
 ### Backend Configuration
